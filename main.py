@@ -1,16 +1,13 @@
-# This is a sample Python script.
+import pandas as pd
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+file = "enb0.csv"
+data = pd.read_csv(file, low_memory=False)
+print(len(data.columns))
+print(data.columns)
+columns = data.columns
+print("Coluns lenght: "+str(len(columns)))
 
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
-
-
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+data = data.drop(data.iloc[:, 10:43],axis=1)
+print(data.columns)
+print(data)
