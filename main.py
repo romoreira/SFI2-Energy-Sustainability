@@ -204,45 +204,46 @@ def load_data(client_id):
     else:
         print("Number of clients > dataset")
 
-    df.set_index(df.iloc[:, 0].name)
-    df.index.names = ['TimeStamp']
-
-    data_columns = list(df.columns.values)
-    data = df[data_columns].values
-    data = np.clip(data, 0.0, np.percentile(data.flatten(), 99))  # we use 99% as the threshold
-    df[data_columns] = data
-
-    aggregated_time_series = np.sum(data, axis=1)
-    df_ts = pd.DataFrame()
-    df_ts['data'] = aggregated_time_series / 1000  # Plot in Mbps
-
-    # df.drop(df.columns[[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]], axis=1, inplace=True)
-    df = df.assign(aggregated_ts=df_ts[key].tolist())
-
-    df.fillna(0, inplace=True)
-
-
-    # # Normalizing the aggregated column
-    # df_min_max_scaled = df.copy()
-    # column = 'aggregated_ts'
-    # df_min_max_scaled[column] = (df_min_max_scaled[column] - df_min_max_scaled[column].min()) / (
-    #         df_min_max_scaled[column].max() - df_min_max_scaled[column].min())
-    # print(df_min_max_scaled)
-    # df = df_min_max_scaled
-    # # print(df)
-    # # create_graph(df_min_max_scaled, "DF_Normalized")
-    # # exit()
-
-    target_sensor = "aggregated_ts"
-    features = list(df.columns.difference([target_sensor]))
-    forecast_lead = 30 #30 x 2 minutos -> 1 hour ahead
-    target = f"{target_sensor}_lead{forecast_lead}"
-    df[target] = df[target_sensor].shift(-forecast_lead)
-    df = df.iloc[:-forecast_lead]
+    # df.set_index(df.iloc[:, 0].name)
+    # df.index.names = ['TimeStamp']
+    #
+    # data_columns = list(df.columns.values)
+    # data = df[data_columns].values
+    # data = np.clip(data, 0.0, np.percentile(data.flatten(), 99))  # we use 99% as the threshold
+    # df[data_columns] = data
+    #
+    # aggregated_time_series = np.sum(data, axis=1)
+    # df_ts = pd.DataFrame()
+    # df_ts['data'] = aggregated_time_series / 1000  # Plot in Mbps
+    #
+    # # df.drop(df.columns[[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]], axis=1, inplace=True)
+    # df = df.assign(aggregated_ts=df_ts[key].tolist())
+    #
+    # df.fillna(0, inplace=True)
+    #
+    #
+    # # # Normalizing the aggregated column
+    # # df_min_max_scaled = df.copy()
+    # # column = 'aggregated_ts'
+    # # df_min_max_scaled[column] = (df_min_max_scaled[column] - df_min_max_scaled[column].min()) / (
+    # #         df_min_max_scaled[column].max() - df_min_max_scaled[column].min())
+    # # print(df_min_max_scaled)
+    # # df = df_min_max_scaled
+    # # # print(df)
+    # # # create_graph(df_min_max_scaled, "DF_Normalized")
+    # # # exit()
+    #
+    # target_sensor = "aggregated_ts"
+    # features = list(df.columns.difference([target_sensor]))
+    # forecast_lead = 30 #30 x 2 minutos -> 1 hour ahead
+    # target = f"{target_sensor}_lead{forecast_lead}"
+    # df[target] = df[target_sensor].shift(-forecast_lead)
+    # df = df.iloc[:-forecast_lead]
     print(df)
 
-    df = min_max_scaler(df)  # Normaliza entre 0 e 1 o dataframe
-    build_train_test_graph(df, client_id)
+    features = list(df.columns.difference(["Values"]))
+    target = key
+    df = min_max_scaler(df, key)  # Normaliza entre 0 e 1 o dataframe
 
 
     train_ind = int(len(df) * 0.8)
