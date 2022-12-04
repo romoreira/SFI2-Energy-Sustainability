@@ -174,7 +174,7 @@ class SequenceDataset(Dataset):
 def get_dataset_carbon():
     dateparse = lambda x: pd.to_datetime(x, format='%Y%m', errors='coerce')
     df = pd.read_csv("./data/MER_T12_06.csv", parse_dates=['YYYYMM'], index_col='YYYYMM', date_parser=dateparse)
-
+    df = df.drop(['MSN', "Column_Order", "Description", "Unit"], axis=1)
     return df
 
 def load_data(client_id):
@@ -201,6 +201,7 @@ def load_data(client_id):
         df = get_dataset_steel_ready()
         df = min_max_scaler(df, "Usage_kWh")
         build_train_test_graph(df, "Steel_Eletricity", "Usage_kWh")
+        key = "Usage_kWh"
     else:
         print("Number of clients > dataset")
 
@@ -241,9 +242,10 @@ def load_data(client_id):
     # df = df.iloc[:-forecast_lead]
     print(df)
 
-    features = list(df.columns.difference(["Values"]))
+    target_sensor = key
+    features = list(df.columns.difference([target_sensor]))
     target = key
-    df = min_max_scaler(df, key)  # Normaliza entre 0 e 1 o dataframe
+    #df = min_max_scaler(df, key)  # Normaliza entre 0 e 1 o dataframe
 
 
     train_ind = int(len(df) * 0.8)
@@ -418,10 +420,9 @@ def get_model(model_name):
 # Load model and data
 net = get_model(model_name)
 net.cuda()
-trainloader, testloader, num_examples, df = load_data(1)
+trainloader, testloader, num_examples, df = load_data(args.client_id)
 client = FlowerClient()
 
-exit()
 # Start Flower client
 fl.client.start_numpy_client(
     server_address="127.0.0.1:8080",
