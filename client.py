@@ -32,7 +32,7 @@ def create_loss_graph(train_losses, test_losses, plt_title):
     plt.legend(frameon=False)
     plt.xlabel("Epochs")
     plt.ylabel("Loss")
-    plt.grid(b=None)
+    plt.grid(visible=None)
     plt.legend()
     plt.grid()
     plt.savefig(resultados_dir + '/' + 'graf_' + str(plt_title) + '.pdf')
@@ -174,7 +174,7 @@ class SequenceDataset(Dataset):
 def get_dataset_carbon():
     dateparse = lambda x: pd.to_datetime(x, format='%Y%m', errors='coerce')
     df = pd.read_csv("./data/MER_T12_06.csv", parse_dates=['YYYYMM'], index_col='YYYYMM', date_parser=dateparse)
-    df = df.drop(['MSN', "Column_Order", "Description", "Unit"], axis=1)
+    df = df.drop(["MSN", "Description", "Unit"], axis=1)
     return df
 
 def load_data(client_id):
@@ -429,6 +429,7 @@ fl.client.start_numpy_client(
     client=client,
 )
 create_loss_graph(client.losses_train, [], str("Loss Train" + str(args.client_id)))
+client.predicted = min_max_scaler(client.predicted)
 create_plot_real_pred(client.real, client.predicted, client_id=args.client_id)
 
 
