@@ -436,7 +436,7 @@ args = parser.parse_args()
 def get_model(model_name):
     if model_name == "OmniScaleCNN":
         c_in = 30
-        seq_len = 11
+        seq_len = 4
         c_out = 1
         model = OmniScaleCNN(c_in, c_out, seq_len)
         return model
