@@ -1,4 +1,4 @@
-# SFI2 Energy Sustentability
-SFI2 Project experiments 
+# SFI2 Energy Sustainability
+SFI2 Project Experiments 
 
 To-be-Done
