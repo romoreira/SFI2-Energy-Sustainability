@@ -124,8 +124,8 @@ def get_dataset_steel_ready():
     df_steel['date'] = pd.to_datetime(df_steel['date'])
     df_steel.set_index('date',inplace=True)
     df_steel = df_steel.groupby(pd.Grouper(freq='D')).mean()
-
-    print(df_steel)
+    #df_steel = df_steel.drop(["Lagging_Current_Reactive.Power_kVarh", "Leading_Current_Reactive_Power_kVarh"], axis=1)
+    df_steel = min_max_scaler(df_steel, "Usage_kWh")
     return df_steel
 
 def get_dataset_commerce_ready():
@@ -177,6 +177,31 @@ def get_dataset_carbon():
     df = df.drop(["MSN", "Description", "Unit"], axis=1)
     return df
 
+def get_duq_energy():
+    # Load Data
+    duq_df = pd.read_csv('data/DUQ_hourly.csv', index_col=[0], parse_dates=[0])
+    # Sort Data
+    duq_df.sort_index(inplace=True)
+    # Identify Duplicate Indices
+    duplicate_index = duq_df[duq_df.index.duplicated()]
+    #print(duq_df.loc[duplicate_index.index.values, :])
+    # Replace Duplicates with Mean Value
+    duq_df = duq_df.groupby('Datetime').agg(np.mean)
+    # Set DatetimeIndex Frequency
+    duq_df = duq_df.asfreq('H')
+    duq_df = duq_df.groupby(pd.Grouper(freq='D')).mean()
+    duq_df = min_max_scaler(duq_df, "DUQ_MW")
+    df = duq_df
+    # Determine # of Missing Values
+    #print('# of Missing DUQ_MW Values: {}'.format(len(duq_df[duq_df['DUQ_MW'].isna()])))
+    # Impute Missing Values
+    duq_df['DUQ_MW'] = duq_df['DUQ_MW'].interpolate(limit_area='inside', limit=None)
+    plt.plot(duq_df.index, duq_df['DUQ_MW'])
+    plt.title('Duquesne Light Energy Consumption')
+    plt.ylabel('Energy Consumption (MW)')
+    #plt.show()
+    return df
+
 def load_data(client_id):
     """
     transform = transforms.Compose(
@@ -194,12 +219,13 @@ def load_data(client_id):
 
     '''Choose one dataset for each client'''
     if client_id == 1:
-        df = get_dataset_carbon()
-        build_train_test_graph(df, "Carbon", "Value")
-        key = "Value"
+        df = get_duq_energy()
+        build_train_test_graph(df, "Energy DUQ", "DUQ_MW")
+        key = "DUQ_MW"
+
     elif client_id == 2:
         df = get_dataset_steel_ready()
-        df = min_max_scaler(df, "Usage_kWh")
+        #df = min_max_scaler(df, "Usage_kWh")
         build_train_test_graph(df, "Steel_Eletricity", "Usage_kWh")
         key = "Usage_kWh"
     else:
@@ -346,6 +372,7 @@ def test(net, testloader):
     with torch.no_grad():
         for images, labels in tqdm(testloader):
             outputs = net(images.float().to(DEVICE))
+            #outputs = outputs.unsqueeze(-1)
             labels = labels.to(DEVICE)
             if len(outputs) == 5:
                 break
@@ -429,7 +456,7 @@ fl.client.start_numpy_client(
     client=client,
 )
 create_loss_graph(client.losses_train, [], str("Loss Train" + str(args.client_id)))
-client.predicted = min_max_scaler(client.predicted)
+#client.predicted = min_max_scaler(client.predicted)
 create_plot_real_pred(client.real, client.predicted, client_id=args.client_id)
 
 

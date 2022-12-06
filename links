@@ -2,3 +2,6 @@ steel: https://archive.ics.uci.edu/ml/datasets/Steel+Industry+Energy+Consumption
 
 ice_energy: https://www.eia.gov/electricity/wholesale/
 https://www.mdpi.com/1996-1073/12/4/739/htm
+
+Duque: https://github.com/dontmindifiduda/hourly_energy_consumption
+https://scottmduda.medium.com/predicting-energy-consumption-part-1-ad38f7d7106f
