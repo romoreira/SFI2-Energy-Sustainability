@@ -43,7 +43,7 @@ def create_plot_real_pred(real, pred, client_id):
     plt.figure()
     plt.plot(pred, label='predicted')
     plt.plot(real, label='actual')
-    plt.ylabel('RAN Consumption')
+    plt.ylabel('Eletricity Consumption')
     plt.xlabel('Test Set')
     plt.legend()
     plt.savefig(resultados_dir + '/' + 'graf_' + str("RealPredict_") + str(client_id) + '.pdf')
@@ -344,7 +344,7 @@ class ShallowRegressionLSTM(nn.Module):
 def train(net, trainloader, epochs):
     """Train the model on the training set."""
     criterion = torch.nn.MSELoss()
-    optimizer = torch.optim.SGD(net.parameters(), lr=0.001, momentum=0.9)
+    optimizer = torch.optim.SGD(net.parameters(), lr=0.01, momentum=0.9)
     loss_list = []
     epoch_loss = 0.0
     for epoch in range(epochs):
