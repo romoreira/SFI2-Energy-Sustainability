@@ -112,7 +112,7 @@ def build_train_test_graph(df, client_id, key):
     plt.axvspan(df.index[train_length:][0], df.index[train_length:][-1], facecolor='r', alpha=0.1)
 
     plt.xlabel('Time')
-    plt.ylabel('Energy Consumption')
+    plt.ylabel('Eletricity Consumption')
     plt.legend(loc='upper center')
     #plt.show()
     plt.savefig(resultados_dir + '/' + str(model_name) + '_training_test_split'+str("_")+str(client_id)+'.pdf', bbox_inches='tight', pad_inches=0.1)
@@ -222,12 +222,14 @@ def load_data(client_id):
     if client_id == 1:
         df = get_duq_energy()
         build_train_test_graph(df, "Energy DUQ", "DUQ_MW")
+        exit()
         key = "DUQ_MW"
 
     elif client_id == 2:
         df = get_dataset_steel_ready()
         #df = min_max_scaler(df, "Usage_kWh")
         build_train_test_graph(df, "Steel_Eletricity", "Usage_kWh")
+        exit()
         key = "Usage_kWh"
     else:
         print("Number of clients > dataset")
