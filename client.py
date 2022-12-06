@@ -14,7 +14,7 @@ from tqdm import tqdm
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 from collections import OrderedDict
 
-model_name = "OmniScaleCNN"
+model_name = "LSTM"
 
 name = './Resultados'
 if os.path.isdir(name) == False:
@@ -25,6 +25,7 @@ if os.path.isdir(resultados_dir) == False:
     os.mkdir(resultados_dir)
 
 def create_loss_graph(train_losses, test_losses, plt_title):
+    plt.clf()
     # Cria os graficos de decaimento treino e validação (imprime na tela e salva na pasta "./Resultados")
     plt.title("Training Loss")
     plt.plot(train_losses, label='Train')
@@ -269,7 +270,7 @@ def load_data(client_id):
     print(df)
 
     target_sensor = key
-    features = list(df.columns.difference([target_sensor]))
+    features = list(df.columns)
     target = key
     #df = min_max_scaler(df, key)  # Normaliza entre 0 e 1 o dataframe
 
@@ -317,7 +318,7 @@ def load_data(client_id):
 class ShallowRegressionLSTM(nn.Module):
     def __init__(self):
         super().__init__()
-        self.num_sensors = 11  # this is the number of features
+        self.num_sensors = 4  # this is the number of features
         self.hidden_units = 16
         self.num_layers = 1
 
