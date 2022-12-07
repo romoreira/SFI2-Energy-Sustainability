@@ -222,14 +222,14 @@ def load_data(client_id):
     if client_id == 1:
         df = get_duq_energy()
         build_train_test_graph(df, "Energy DUQ", "DUQ_MW")
-        exit()
+        #exit()
         key = "DUQ_MW"
 
     elif client_id == 2:
         df = get_dataset_steel_ready()
         #df = min_max_scaler(df, "Usage_kWh")
         build_train_test_graph(df, "Steel_Eletricity", "Usage_kWh")
-        exit()
+        #exit()
         key = "Usage_kWh"
     else:
         print("Number of clients > dataset")
