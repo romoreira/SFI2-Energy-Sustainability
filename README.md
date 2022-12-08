@@ -1,6 +1,7 @@
 # SFI2 Energy Sustainability
 ## SFI2 Project experiments
 
+<img src="https://github.com/romoreira/SFI2-Energy-Sustainability/blob/f1d9047c24d8b16e2325c11045ccf3fd4bb36fac/image_2022_11_24T14_18_42_783Z%20(1).png" width=50% height=50%>
 <a href="https://sites.google.com/view/sfi2/home"><img src="http://url.to/image.png](https://github.com/romoreira/SFI2-Energy-Sustainability/blob/f1d9047c24d8b16e2325c11045ccf3fd4bb36fac/image_2022_11_24T14_18_42_783Z%20(1).png" height="80" width="80" ></a>
 
 
