@@ -9,5 +9,5 @@ This repository contains the code artifacts and dataset to simulate eletricity c
 
 1. Run the [launch.sh](https://github.com/romoreira/SFI2-Energy-Sustainability/blob/master/requirements.txt) file available in this repository
 2. `./lauch.sh`
-> Note inside [launch.sh](https://github.com/romoreira/SFI2-Energy-Sustainability/blob/master/requirements.txt) has the call of client python scripts, and some parameters is provided.
+> Note inside [launch.sh](https://github.com/romoreira/SFI2-Energy-Sustainability/blob/4538ee42e05f9a6c8447c13ce08ef77cf389697f/launch.sh) has the call of client python scripts, and some parameters is provided.
 
