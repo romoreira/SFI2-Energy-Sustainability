@@ -5,7 +5,7 @@
 
 
 
-This repository contains the code artifacts and dataset to simulate eletricity consumption in Target Domains managed by SFI2 Reference Architecture. To reproduce this snipet it is mandatory to install some requirements as described in file [requirements.txt](https://github.com/romoreira/SFI2-Energy-Sustainability/blob/master/requirements.txt)
+This repository contains the code artifacts and dataset to simulate eletricity consumption in Target Domains managed by [SFI2 Reference Architecture](https://sites.google.com/view/sfi2/home). To reproduce this snipet it is mandatory to install some requirements as described in file [requirements.txt](https://github.com/romoreira/SFI2-Energy-Sustainability/blob/master/requirements.txt)
 
 1. Run the [launch.sh](https://github.com/romoreira/SFI2-Energy-Sustainability/blob/master/requirements.txt) file available in this repository
 2. `./lauch.sh`
