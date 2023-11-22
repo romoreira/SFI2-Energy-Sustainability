@@ -1,4 +1,4 @@
-# SFI2 Energy Sustainability using AI algorithms.
+# SFI2: Energy Sustainability using AI algorithms.
 
 Developed by Rodrigo M.  <br>
 [![](https://img.shields.io/badge/GitHub%20Pages-222222?style=for-the-badge&logo=GitHub%20Pages&logoColor=white)](https://romoreira.github.io)
